@@ -1,8 +1,8 @@
 import datetime
-from settings import SiteSettings
+from settings import BotSettings
 import telebot
 
-site = SiteSettings()
+site = BotSettings()
 token = site.bot_token.get_secret_value()
 bot = telebot.TeleBot(token)
 
