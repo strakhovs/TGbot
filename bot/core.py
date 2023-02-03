@@ -9,7 +9,7 @@ bot = telebot.TeleBot(token)
 
 def log(message: telebot.types.Message):
     with open('log.txt', 'a+') as log_file:
-        log_string = str(message.from_user.first_name) + ' ' + str(message.text) + '\n'
+        log_string = str(datetime.datetime.now()) + ' ' + str(message.from_user.first_name) + ' ' + str(message.text) + '\n'
         log_file.write(log_string)
 
 
