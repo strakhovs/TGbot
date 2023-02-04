@@ -9,14 +9,13 @@ headers = {
     }
 
 
-def make_request(query: str, asc=True, start_price="1", end_price=None) -> list:
+def make_request(query: str, asc=True, start_price="0", end_price="0") -> list:
     """
     Создаёт запрос к API, возвращает список товаров
     """
-    querystring = {"q": query, "sort": "priceAsc" if asc else "priceDes",
+    querystring = {"q": query, "sort": ("priceAsc" if asc else "priceDesc"),
                    "startPrice": start_price, "endPrice": end_price,
                    "locale": "ru_RU", "region": "RU", "currency": "RUB"}
-
     response = requests.request("GET", url, headers=headers, params=querystring)
     if response.status_code == 200:
         raw_data = json.loads(response.text)
