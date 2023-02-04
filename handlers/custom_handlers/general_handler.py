@@ -2,10 +2,7 @@ from telebot.types import Message
 from telebot import custom_filters
 from loader import bot
 from states.custom_states import MyStates
-
 from keyboards.inline.url_button import url_button
-
-
 
 
 @bot.message_handler(state=MyStates.search_layout)

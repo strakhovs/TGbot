@@ -9,7 +9,7 @@ def custom_command(message: Message) -> None:
     """
     Обработка команды /custom
     """
-    bot.set_state(message.from_user.id, MyStates.search_custom_start, message.chat.id)  # Состояние MyStates.search
+    bot.set_state(message.from_user.id, MyStates.search_custom_start, message.chat.id)
     bot.send_message(message.chat.id, "Введите строку для поиска")
 
 
