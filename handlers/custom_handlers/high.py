@@ -9,7 +9,7 @@ def high_command(message: Message) -> None:
     """
     Обработка команды /high
     """
-    bot.set_state(message.from_user.id, MyStates.search_high, message.chat.id)  # Состояние MyStates.search
+    bot.set_state(message.from_user.id, MyStates.search_high, message.chat.id)
     bot.send_message(message.chat.id, "Введите строку для поиска")
 
 

@@ -9,7 +9,7 @@ def low_command(message: Message) -> None:
     """
     Обработка команды /low
     """
-    bot.set_state(message.from_user.id, MyStates.search_low, message.chat.id)  # Состояние MyStates.search
+    bot.set_state(message.from_user.id, MyStates.search_low, message.chat.id)
     bot.send_message(message.chat.id, "Введите строку для поиска")
 
 
