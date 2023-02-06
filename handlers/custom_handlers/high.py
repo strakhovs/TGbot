@@ -19,5 +19,10 @@ def get_search_result(message: Message) -> None:
     Получение результатов поиска, запрос количества отображаемых элементов
     """
     bot.set_state(message.from_user.id, MyStates.search_layout, message.chat.id)
-    bot.response = make_request(message.text, asc=False)
-    bot.send_message(message.chat.id, "Сколько товаров отображать?\n(Максимум - 20)")
+    try:
+        bot.response = make_request(message.text, asc=False)
+    except Exception:
+        bot.send_message(message.chat.id, "Ничего не найдено")
+        bot.delete_state(message.from_user.id)
+    else:
+        bot.send_message(message.chat.id, "Сколько товаров отображать?\n(Максимум - 20)")

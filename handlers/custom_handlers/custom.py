@@ -38,7 +38,12 @@ def get_search_result(message: Message) -> None:
     if message.text.isdigit():
         bot.set_state(message.from_user.id, MyStates.search_layout, message.chat.id)
         bot.end_price = message.text
-        bot.response = make_request(bot.query, start_price=bot.start_price, end_price=bot.end_price)
-        bot.send_message(message.chat.id, "Сколько товаров отображать?\n(Максимум - 20)")
+        try:
+            bot.response = make_request(bot.query, start_price=bot.start_price, end_price=bot.end_price)
+        except Exception:
+            bot.send_message(message.chat.id, "Ничего не найдено")
+            bot.delete_state(message.from_user.id)
+        else:
+            bot.send_message(message.chat.id, "Сколько товаров отображать?\n(Максимум - 20)")
     else:
         bot.send_message(message.chat.id, "Введите число")
