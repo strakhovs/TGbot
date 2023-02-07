@@ -41,7 +41,7 @@ def get_search_result(message: Message) -> None:
         try:
             bot.response = make_request(bot.query, start_price=bot.start_price, end_price=bot.end_price)
         except Exception:
-            bot.send_message(message.chat.id, "Ничего не найдено")
+            bot.send_message(message.chat.id, "Ничего не найдено. Проверьте ввод")
             bot.delete_state(message.from_user.id)
         else:
             bot.send_message(message.chat.id, "Сколько товаров отображать?\n(Максимум - 20)")
