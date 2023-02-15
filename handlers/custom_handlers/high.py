@@ -1,4 +1,6 @@
 from telebot.types import Message
+
+from database.CRUD import store_message
 from loader import bot
 from states.custom_states import MyStates
 from .goods_request import make_request
@@ -18,6 +20,7 @@ def get_search_result(message: Message) -> None:
     """
     Получение результатов поиска, запрос количества отображаемых элементов
     """
+    store_message(message)
     bot.set_state(message.from_user.id, MyStates.search_layout, message.chat.id)
     try:
         bot.response = make_request(message.text, asc=False)

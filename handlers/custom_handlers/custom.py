@@ -1,4 +1,6 @@
 from telebot.types import Message
+
+from database.CRUD import store_message
 from loader import bot
 from states.custom_states import MyStates
 from .goods_request import make_request
@@ -15,6 +17,7 @@ def custom_command(message: Message) -> None:
 
 @bot.message_handler(state=MyStates.search_custom_start)
 def get_custom_start(message: Message) -> None:
+    store_message(message)
     bot.set_state(message.from_user.id, MyStates.search_custom_end, message.chat.id)
     bot.query = message.text
     bot.send_message(message.chat.id, "Введите начальную цену")
@@ -22,6 +25,7 @@ def get_custom_start(message: Message) -> None:
 
 @bot.message_handler(state=MyStates.search_custom_end)
 def get_custom_end(message: Message) -> None:
+    store_message(message)
     if message.text.isdigit():
         bot.set_state(message.from_user.id, MyStates.search_custom, message.chat.id)
         bot.start_price = message.text
@@ -35,6 +39,7 @@ def get_search_result(message: Message) -> None:
     """
     Получение результатов поиска, запрос количества отображаемых элементов
     """
+    store_message(message)
     if message.text.isdigit():
         bot.set_state(message.from_user.id, MyStates.search_layout, message.chat.id)
         bot.end_price = message.text

@@ -1,5 +1,7 @@
 from telebot.types import Message
 from telebot import custom_filters
+
+from database.CRUD import store_message, store_response
 from loader import bot
 from states.custom_states import MyStates
 from keyboards.inline.url_button import url_button
@@ -10,19 +12,23 @@ def get_result_layout(message: Message) -> None:
     """
     Вывод результатов поиска
     """
+    store_message(message)
     if message.text.isdigit() and 0 < int(message.text) < 21:
         if bot.response:
+            result_list = []
             counter = 1
             for item in bot.response:
                 bot.send_photo(message.chat.id, f'http:{item["item"]["image"]}')
-                bot.send_message(message.chat.id,
-                                 f'{item["item"]["title"]}\n'
-                                 f'⭐: {item["item"]["averageStarRate"] if item["item"]["averageStarRate"] else "-"}\n'
-                                 f'{item["item"]["sku"]["def"]["promotionPrice"]} руб.\n',
-                                 reply_markup=url_button(f'https:{item["item"]["itemUrl"]}'))
+                result = f'{item["item"]["title"]}\n' \
+                         f'⭐: {item["item"]["averageStarRate"] if item["item"]["averageStarRate"] else "-"}\n' \
+                         f'{item["item"]["sku"]["def"]["promotionPrice"]} руб.\n'
+                bot.send_message(message.chat.id, result, reply_markup=url_button(f'https:{item["item"]["itemUrl"]}'))
+                result += f'https:{item["item"]["itemUrl"]}'
+                result_list.append(result)
                 if counter == int(message.text):
                     break
                 counter += 1
+            store_response(int(message.from_user.id), str(result_list))
         else:
             bot.send_message(message.chat.id, "Что-то пошло не так")
         bot.delete_state(message.from_user.id, message.chat.id)  # Сброс состояния
