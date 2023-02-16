@@ -27,6 +27,14 @@ def get_history(person_id: int):
     return responses_selected
 
 
+def get_user(person_id: int):
+    try:
+        user = User.get(User.person_id == person_id)
+    except User.DoesNotExist:
+        return None
+    return user
+
+
 def create_tables():
     with db:
         db.create_tables([ChatHistory, ResponseHistory, User])
