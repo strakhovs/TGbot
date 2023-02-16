@@ -2,6 +2,7 @@ from telebot.types import Message
 from loguru import logger
 from database.CRUD import get_history, get_user
 from handlers.custom_handlers.unknown_user import user_registration
+from keyboards.inline.url_button import url_button
 from loader import bot
 
 
@@ -18,7 +19,9 @@ def history_command(message: Message) -> None:
             for item in responses:
                 response_list = eval(item['response'])
                 for response in response_list:
-                    bot.send_message(message.chat.id, response)
+                    resp_split = response.split('http')
+                    bot.send_message(message.chat.id, resp_split[0],
+                                     reply_markup=url_button('http'+''.join(resp_split[1])))
         else:
             bot.send_message(message.chat.id, 'История пуста')
     else:
