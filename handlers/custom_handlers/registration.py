@@ -15,6 +15,7 @@ def get_name(message: Message) -> None:
     try:
         user = User.get(User.person_id == message.from_user.id)
     except User.DoesNotExist:
+        logger.exception('Пользователь не найден')
         bot.new_user = User(person_id=message.from_user.id, name=message.text)
     else:
         bot.new_user = User(id=user.id, person_id=user.person_id, name=message.text)
@@ -48,4 +49,3 @@ def get_currency(message: Message) -> None:
         bot.send_message(message.chat.id, "Данные сохранены")
     else:
         bot.send_message(message.chat.id, "Проверьте свой ввод")
-

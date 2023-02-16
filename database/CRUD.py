@@ -15,7 +15,7 @@ def store_message(message: Message) -> None:
 def store_response(person_id: int, response_string: str) -> None:
     with db.atomic():
         ResponseHistory.create(person_id=person_id, response=response_string)
-        logger.debug(f'Результаты запроса отправлены в базу данных')
+        logger.debug('Результаты запроса отправлены в базу данных')
 
 
 def get_history(person_id: int):
@@ -31,6 +31,7 @@ def get_user(person_id: int):
     try:
         user = User.get(User.person_id == person_id)
     except User.DoesNotExist:
+        logger.debug('Пользователь не найден')
         return None
     return user
 

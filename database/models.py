@@ -25,4 +25,3 @@ class User(ModelBase):
     name = peewee.CharField(max_length=25)
     region = peewee.CharField(max_length=5, default='RU')
     currency = peewee.CharField(max_length=5, default='RUB')
-
