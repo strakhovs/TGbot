@@ -1,7 +1,8 @@
-from telebot.types import Message
+from telebot.types import Message, ReplyKeyboardRemove
 from loguru import logger
 from database.CRUD import store_message
 from database.models import User
+from keyboards.reply.region_keyboard import region_keyboard, currency_keyboard
 from loader import bot
 from states.custom_states import MyStates
 
@@ -23,7 +24,8 @@ def get_name(message: Message) -> None:
 
     bot.set_state(message.from_user.id, MyStates.registration_region, message.chat.id)
     bot.send_message(message.chat.id,
-                     "Введите свой регион.\n(US, RU, ES, FR, UK, BR, IL, NL, CA, IT, CL, UA, PL, AU, DE, BE)")
+                     "Выберите свой регион.",
+                     reply_markup=region_keyboard())
 
 
 @bot.message_handler(state=MyStates.registration_region)
@@ -33,8 +35,8 @@ def get_region(message: Message) -> None:
         bot.new_user.region = message.text
         bot.set_state(message.from_user.id, MyStates.registration_currency, message.chat.id)
         bot.send_message(message.chat.id,
-                         "Введите валюту для отображения\n"
-                         "USD, EUR, CAD, CHF, AUD, SGD, KRW, JPY, PLN, GBP, SEK, NZD, RUB")
+                         "Выберите валюту для отображения",
+                         reply_markup=currency_keyboard())
     else:
         bot.send_message(message.chat.id, "Проверьте свой ввод.")
 
@@ -46,6 +48,6 @@ def get_currency(message: Message) -> None:
         bot.new_user.currency = message.text
         bot.delete_state(message.from_user.id, message.chat.id)
         bot.new_user.save()
-        bot.send_message(message.chat.id, "Данные сохранены")
+        bot.send_message(message.chat.id, "Данные сохранены", reply_markup=ReplyKeyboardRemove())
     else:
         bot.send_message(message.chat.id, "Проверьте свой ввод")
