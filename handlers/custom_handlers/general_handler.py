@@ -12,6 +12,20 @@ def get_result_layout(message: Message) -> None:
     """
     Вывод результатов поиска
     """
+    currencies_symbols = {'USD': '$',
+                          'EUR': '€',
+                          'CAD': '$',
+                          'CHF': '₣',
+                          'AUD': '$',
+                          'SGD': '$',
+                          'KRW': '₩',
+                          'JPY': '¥',
+                          'PLN': 'zł',
+                          'GBP': '£',
+                          'SEK': 'kr',
+                          'NZD': '$',
+                          'RUB': '₽'}
+
     store_message(message)
     if message.text.isdigit() and 0 < int(message.text) < 21:
         if bot.response:
@@ -21,7 +35,8 @@ def get_result_layout(message: Message) -> None:
                 bot.send_photo(message.chat.id, f'http:{item["item"]["image"]}')
                 result = f'{item["item"]["title"]}\n' \
                          f'⭐: {item["item"]["averageStarRate"] if item["item"]["averageStarRate"] else "-"}\n' \
-                         f'{item["item"]["sku"]["def"]["promotionPrice"]} руб.\n'
+                         f'{item["item"]["sku"]["def"]["promotionPrice"]} ' \
+                         f'{currencies_symbols[bot.current_user.currency]}\n'
                 bot.send_message(message.chat.id, result, reply_markup=url_button(f'https:{item["item"]["itemUrl"]}'))
                 result += f'https:{item["item"]["itemUrl"]}'
                 result_list.append(result)

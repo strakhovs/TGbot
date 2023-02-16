@@ -18,3 +18,10 @@ class ChatHistory(ModelBase):
 class ResponseHistory(ModelBase):
     person_id = peewee.IntegerField()
     response = peewee.CharField()
+
+
+class User(ModelBase):
+    person_id = peewee.IntegerField(unique=True)
+    name = peewee.CharField(max_length=25)
+    region = peewee.CharField(max_length=5, default='RU')
+    currency = peewee.CharField(max_length=5, default='RUB')

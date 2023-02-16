@@ -9,3 +9,6 @@ class MyStates(StatesGroup):
     search_custom = State()
     search_layout = State()
     search_range = State()
+    registration_name = State()
+    registration_region = State()
+    registration_currency = State()
