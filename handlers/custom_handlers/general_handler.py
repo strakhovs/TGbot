@@ -38,7 +38,7 @@ def get_result_layout(message: Message) -> None:
                          f'{item["item"]["sku"]["def"]["promotionPrice"]} ' \
                          f'{currencies_symbols[bot.current_user.currency]}\n'
                 bot.send_message(message.chat.id, result, reply_markup=url_button(f'https:{item["item"]["itemUrl"]}'))
-                result += f'https:{item["item"]["itemUrl"]}'
+                result = f'http:{item["item"]["image"]}|' + result + f'|https:{item["item"]["itemUrl"]}'
                 result_list.append(result)
                 if counter == int(message.text):
                     break

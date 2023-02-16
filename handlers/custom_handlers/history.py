@@ -19,9 +19,10 @@ def history_command(message: Message) -> None:
             for item in responses:
                 response_list = eval(item['response'])
                 for response in response_list:
-                    resp_split = response.split('http')
-                    bot.send_message(message.chat.id, resp_split[0],
-                                     reply_markup=url_button('http'+''.join(resp_split[1])))
+                    resp_split = response.split('|')
+                    bot.send_photo(message.chat.id, resp_split[0])
+                    bot.send_message(message.chat.id, resp_split[1],
+                                     reply_markup=url_button(str(resp_split[2])))
         else:
             bot.send_message(message.chat.id, 'История пуста')
     else:
