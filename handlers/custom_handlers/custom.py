@@ -1,3 +1,4 @@
+from loguru import logger
 from telebot.types import Message
 
 from database.CRUD import store_message
@@ -11,6 +12,7 @@ def custom_command(message: Message) -> None:
     """
     Обработка команды /custom
     """
+    logger.debug('Вызвана команда /custom')
     bot.set_state(message.from_user.id, MyStates.search_custom_start, message.chat.id)
     bot.send_message(message.chat.id, "Введите строку для поиска")
 
@@ -45,7 +47,8 @@ def get_search_result(message: Message) -> None:
         bot.end_price = message.text
         try:
             bot.response = make_request(bot.query, start_price=bot.start_price, end_price=bot.end_price)
-        except Exception:
+        except Exception as exc:
+            logger.exception(f'Запрос не дал результатов, {exc}')
             bot.send_message(message.chat.id, "Ничего не найдено. Проверьте ввод")
             bot.delete_state(message.from_user.id)
         else:

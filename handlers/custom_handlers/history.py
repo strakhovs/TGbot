@@ -1,5 +1,5 @@
 from telebot.types import Message
-
+from loguru import logger
 from database.CRUD import store_message, get_history
 from loader import bot
 
@@ -9,10 +9,12 @@ def history_command(message: Message) -> None:
     """
     Обработка команды /history
     """
-
+    logger.debug('Вызвана команда /history')
     responses = get_history(int(message.from_user.id))
-    for item in responses:
-
-        response_list = eval(item['response'])
-        for response in response_list:
-            bot.send_message(message.chat.id, response)
+    if responses:
+        for item in responses:
+            response_list = eval(item['response'])
+            for response in response_list:
+                bot.send_message(message.chat.id, response)
+    else:
+        bot.send_message(message.chat.id, 'История пуста')
