@@ -1,5 +1,6 @@
 from datetime import datetime
 from telebot.types import Message
+from loguru import logger
 from .models import db, ChatHistory, ResponseHistory
 
 
@@ -26,7 +27,9 @@ def get_history(person_id: int):
 
 def create_tables():
     with db:
-        db.create_tables([ResponseHistory])
+        db.create_tables([ChatHistory, ResponseHistory])
+        logger.debug('Таблицы созданы')
 
 
 db.connect()
+create_tables()
