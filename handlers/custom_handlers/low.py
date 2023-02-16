@@ -11,7 +11,7 @@ def low_command(message: Message) -> None:
     """
     Обработка команды /low
     """
-    logger.debug('Вызвана команда /low')
+    logger.debug(f'Вызвана команда /low, пользователь: {message.from_user.id}')
     bot.set_state(message.from_user.id, MyStates.search_low, message.chat.id)
     bot.send_message(message.chat.id, "Введите строку для поиска")
 
