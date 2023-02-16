@@ -1,7 +1,7 @@
 from datetime import datetime
 from telebot.types import Message
 from loguru import logger
-from .models import db, ChatHistory, ResponseHistory
+from .models import db, ChatHistory, ResponseHistory, User
 
 
 def store_message(message: Message) -> None:
@@ -29,7 +29,7 @@ def get_history(person_id: int):
 
 def create_tables():
     with db:
-        db.create_tables([ChatHistory, ResponseHistory])
+        db.create_tables([ChatHistory, ResponseHistory, User])
         logger.debug('Таблицы созданы')
 
 
