@@ -6,7 +6,10 @@ from states.custom_states import MyStates
 
 
 @bot.message_handler(commands=["start"])
-def bot_start(message: Message):
+def bot_start(message: Message) -> None:
+    """
+    Обработка команды /start
+    """
     logger.debug(f'Вызвана команда /start, пользователь: {message.from_user.id}')
     try:
         user = User.get(User.person_id == message.from_user.id)

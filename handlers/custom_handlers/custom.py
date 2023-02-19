@@ -24,6 +24,9 @@ def custom_command(message: Message) -> None:
 
 @bot.message_handler(state=MyStates.search_custom_start)
 def get_custom_start(message: Message) -> None:
+    """
+    Сохранение строки запроса, переход к запросу начальной цены
+    """
     store_message(message)
     bot.set_state(message.from_user.id, MyStates.search_custom_end, message.chat.id)
     bot.query = message.text
@@ -32,6 +35,9 @@ def get_custom_start(message: Message) -> None:
 
 @bot.message_handler(state=MyStates.search_custom_end)
 def get_custom_end(message: Message) -> None:
+    """
+    Сохранение начальной цены, переход к запросу конечной цены
+    """
     store_message(message)
     if message.text.isdigit():
         bot.set_state(message.from_user.id, MyStates.search_custom, message.chat.id)
