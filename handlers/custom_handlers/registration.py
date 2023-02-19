@@ -13,6 +13,9 @@ currencies = ['USD', 'EUR', 'CAD', 'CHF', 'AUD', 'SGD', 'KRW', 'JPY', 'PLN', 'GB
 
 @bot.message_handler(state=MyStates.registration_name)
 def get_name(message: Message) -> None:
+    """
+    Сохранение имени, переход к запросу региона
+    """
     try:
         user = User.get(User.person_id == message.from_user.id)
     except User.DoesNotExist:
@@ -30,6 +33,9 @@ def get_name(message: Message) -> None:
 
 @bot.message_handler(state=MyStates.registration_region)
 def get_region(message: Message) -> None:
+    """
+    Сохранение региона, переход к запросу валюты
+    """
     store_message(message)
     if message.text in regions:
         bot.new_user.region = message.text
@@ -43,6 +49,9 @@ def get_region(message: Message) -> None:
 
 @bot.message_handler(state=MyStates.registration_currency)
 def get_currency(message: Message) -> None:
+    """
+    Сохранение пользователя в БД, сброс состояния
+    """
     store_message(message)
     if message.text in currencies:
         bot.new_user.currency = message.text

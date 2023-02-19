@@ -2,6 +2,10 @@ import os
 from loguru import logger
 from dotenv import load_dotenv, find_dotenv
 
+"""
+    Конфигурационный файл
+"""
+
 if not find_dotenv():
     logger.exception('Не найден файл .env')
     exit("Переменные окружения не загружены т.к отсутствует файл .env")

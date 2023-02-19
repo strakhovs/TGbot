@@ -32,13 +32,15 @@ def get_result_layout(message: Message) -> None:
             result_list = []
             counter = 1
             for item in bot.response:
-                bot.send_photo(message.chat.id, f'http:{item["item"]["image"]}')
-                result = f'{item["item"]["title"]}\n' \
+                result = f'http:{item["item"]["image"]}|{item["item"]["title"]}\n' \
                          f'⭐: {item["item"]["averageStarRate"] if item["item"]["averageStarRate"] else "-"}\n' \
                          f'{item["item"]["sku"]["def"]["promotionPrice"]} ' \
-                         f'{currencies_symbols[bot.current_user.currency]}\n'
-                bot.send_message(message.chat.id, result, reply_markup=url_button(f'https:{item["item"]["itemUrl"]}'))
-                result = f'http:{item["item"]["image"]}|' + result + f'|https:{item["item"]["itemUrl"]}'
+                         f'{currencies_symbols[bot.current_user.currency]}\n|https:{item["item"]["itemUrl"]}'
+                bot.send_photo(message.chat.id,
+                               result.split('|')[0],
+                               caption=result.split('|')[1],
+                               reply_markup=url_button(result.split('|')[2]))
+
                 result_list.append(result)
                 if counter == int(message.text):
                     break
